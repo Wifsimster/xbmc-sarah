@@ -1,0 +1,10 @@
+{
+  "modules" : { 
+    "xbmc":     {
+      "description": "Commande Vocale pour XBMC",
+      "version"    : "1.4xxx",
+      "api_url_xbmc_music"    : "http://localhost:8082/jsonrpc",
+      "api_url_xbmc_video"    : "http://localhost:8082/jsonrpc"
+    }
+  }
+}

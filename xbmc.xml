@@ -1,0 +1,551 @@
+<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="ruleXBMC" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
+
+	<rule id="ruleXBMC" scope="public">
+		<tag>out.action=new Object(); </tag>
+		<item weight="2">Sébastien</item>
+		
+		<one-of>
+			<item><ruleref uri="#ruleXBMC_playlist"/><tag>out.action = rules.ruleXBMC_playlist;</tag><tag>out.action._attributes.tts = "Je m'en occupe"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
+			<item><ruleref uri="#ruleXBMC_search"/><tag>out.action = rules.ruleXBMC_search;</tag><tag>out.action._attributes.tts = "Je m'en occupe"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
+			<item><ruleref uri="#ruleXBMC_Artist"/><tag>out.action = rules.ruleXBMC_Artist;</tag><tag>out.action._attributes.tts = "Je m'en occupe"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
+			<item><ruleref uri="#ruleXBMC_Telecommande"/><tag>out.action = rules.ruleXBMC_Telecommande</tag><tag>out.action._attributes.tts = "Je m'en occupe"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
+			<item><ruleref uri="#ruleXBMC_Serie"/><tag>out.action = rules.ruleXBMC_Serie;</tag><tag>out.action._attributes.tts = "Je m'en occupe"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
+<!--	Désactivation temporaire du LAZY durant essais plugin-->
+			<item>active le mode xbmc
+				<tag>out.action._attributes.context = "lazyxbmc.xml"</tag>
+				<tag>out.action._attributes.tts = "Mode XBMC activé"</tag>
+			</item>
+
+		</one-of>
+		
+	</rule>  
+  
+	<rule id="ruleXBMC_Telecommande" scope="public">
+		<example>Sebastien musique suivante</example>
+		<tag>out.action=new Object(); </tag>
+		<one-of>
+			<item>musique suivante<tag>out.action.action="next"</tag><tag>out.action.xbmc="music" </tag></item>
+			<item>musique précédente<tag>out.action.action="prev"</tag><tag>out.action.xbmc="music" </tag></item>
+			<item>met en pause la musique<tag>out.action.action="play"</tag><tag>out.action.xbmc="music" </tag></item>
+            <item>met la musique sur pause<tag>out.action.action="play"</tag><tag>out.action.xbmc="music" </tag></item>
+            <item>musique sur pause<tag>out.action.action="play"</tag><tag>out.action.xbmc="music" </tag></item>
+			<item>musique en pause<tag>out.action.action="play"</tag><tag>out.action.xbmc="music" </tag></item>
+            <item>reprends la musique<tag>out.action.action="play"</tag><tag>out.action.xbmc="music" </tag></item>
+            <item>remets la musique<tag>out.action.action="play"</tag><tag>out.action.xbmc="music" </tag></item>
+            <item>musique sur play<tag>out.action.action="play"</tag><tag>out.action.xbmc="music" </tag></item>
+			<item>met en pause la série<tag>out.action.action="playvideo"</tag><tag>out.action.xbmc="video" </tag></item>
+			<item>met en pause le film<tag>out.action.action="playvideo"</tag><tag>out.action.xbmc="video" </tag></item>
+			<item>met en pause l'épisode<tag>out.action.action="playvideo"</tag><tag>out.action.xbmc="video" </tag></item>
+			<item>remet la série<tag>out.action.action="playvideo"</tag><tag>out.action.xbmc="video" </tag></item>
+			<item>remet l'épisode<tag>out.action.action="playvideo"</tag><tag>out.action.xbmc="video" </tag></item>
+			<item>remet en lecture la série<tag>out.action.action="playvideo"</tag><tag>out.action.xbmc="video" </tag></item>
+			<item>remet en lecture l'épisode<tag>out.action.action="playvideo"</tag><tag>out.action.xbmc="video" </tag></item>
+			<item>remet en lecture le film<tag>out.action.action="playvideo"</tag><tag>out.action.xbmc="video" </tag></item>
+		</one-of>
+	</rule>
+      
+      <rule id="ruleXBMC_whatisit" scope="public">
+            <example>Sebastien qu'est ce que c'est ?</example>
+            <item>Qu'est ce que c'est<tag>out.action.action="whatIsPlaying"</tag></item>
+            <item>Qu'elle est l'artiste qui joue<tag>out.action.action="whatIsPlaying"</tag></item>
+            <item>Qu'elle groupe c'est<tag>out.action.action="whatIsPlaying"</tag></item>
+            <item>c'est qu'elle artiste<tag>out.action.action="whatIsPlaying"</tag></item>
+            <item>c'est qui<tag>out.action.action="whatIsPlaying"</tag></item>
+      </rule>
+  
+      <rule id="ruleXBMC_search" scope="public">
+            <example>Sebastien recherche * dans les musiques</example>
+            <tag>out.action=new Object();</tag>
+            <tag>out.action.xbmc="music" </tag>
+            <tag>out.action.action="playlist";</tag>
+            <item>recherche</item><ruleref special="GARBAGE" /><item>dans les  musiques</item>
+            <tag>out._attributes.dictation="true";</tag> 
+      </rule>
+
+	<rule id="ruleXBMC_playlist" scope="public">
+		<example>Sebastien joue de la musique Rock</example>
+		<tag>out.action=new Object(); </tag>
+		<tag>out.action.xbmc="music" </tag>
+		<one-of>
+			<item>met de la musique <tag>out.action.action="playlist";</tag></item>
+			<item>envoie de la musique <tag>out.action.action="playlist";</tag></item>
+			<item>je veux écouter de la musique <tag>out.action.action="playlist";</tag></item>
+			<item>joue de la musique <tag>out.action.action="playlist";</tag></item>
+			<item>met un peu de musique <tag>out.action.action="playlist";</tag></item>
+		</one-of>
+		<one-of>
+			<!-- Personalisation Genre  -->
+			<!-- Automatic Generation Genre ¤ -->
+            <item>Alternative Rock<tag>out.action.genre = "Alternative Rock"</tag></item>
+            <item>Alternative<tag>out.action.genre = "Alternative"</tag></item>
+            <item>Rock<tag>out.action.genre = "Rock"</tag></item>
+            <item>Pop<tag>out.action.genre = "Pop"</tag></item>
+            <item>Nu Metal<tag>out.action.genre = "Nu Metal"</tag></item>
+            <item>Hard Rock<tag>out.action.genre = "Hard Rock"</tag></item>
+            <item>Dubstep<tag>out.action.genre = "Dubstep"</tag></item>
+            <item>Pop Rock<tag>out.action.genre = "Pop Rock"</tag></item>
+            <item>Industrial<tag>out.action.genre = "Industrial"</tag></item>
+            <item>Metal<tag>out.action.genre = "Metal"</tag></item>
+            <item>Electronic Rock<tag>out.action.genre = "Electronic Rock"</tag></item>
+            <item>Britpop<tag>out.action.genre = "Britpop"</tag></item>
+            <item>House<tag>out.action.genre = "House"</tag></item>
+            <item>Drum and Bass<tag>out.action.genre = "Drum and Bass"</tag></item>
+            <item>Monumental Dance<tag>out.action.genre = "Monumental Dance"</tag></item>
+            <item>Power Metal<tag>out.action.genre = "Power Metal"</tag></item>
+            <item>New Age<tag>out.action.genre = "New Age"</tag></item>
+            <item>Gothic Metal<tag>out.action.genre = "Gothic Metal"</tag></item>
+            <item>Post hardcore<tag>out.action.genre = "Post hardcore"</tag></item>
+            <item>rapcore<tag>out.action.genre = "rapcore"</tag></item>
+            <item>Hip-Hop<tag>out.action.genre = "Hip-Hop"</tag></item>
+            <item>Metalcore<tag>out.action.genre = "Metalcore"</tag></item>
+            <item>Alternative and Punk<tag>out.action.genre = "Alternative &amp; Punk"</tag></item>
+            <item>Grunge<tag>out.action.genre = "Grunge"</tag></item>
+            <item>Drum and Bass<tag>out.action.genre = "Drum &amp; Bass"</tag></item>
+            <item>Nu Métal<tag>out.action.genre = "Nu Métal"</tag></item>
+            <item>Punk Rock<tag>out.action.genre = "Punk Rock"</tag></item>
+            <item>Classical<tag>out.action.genre = "Classical"</tag></item>
+            <item>Post-hardcore<tag>out.action.genre = "Post-hardcore"</tag></item>
+            <item>Hardcore<tag>out.action.genre = "Hardcore"</tag></item>
+            <item>Skate Punk<tag>out.action.genre = "Skate Punk"</tag></item>
+            <item>Pop Punk<tag>out.action.genre = "Pop Punk"</tag></item>
+            <item>Jazz<tag>out.action.genre = "Jazz"</tag></item>
+            <item>Electronic<tag>out.action.genre = "Electronic"</tag></item>
+            <item>Alternative Metal<tag>out.action.genre = "Alternative Metal"</tag></item>
+            <item>Soundtracks<tag>out.action.genre = "Soundtracks"</tag></item>
+            <item>Industrial Metal<tag>out.action.genre = "Industrial Metal"</tag></item>
+            <item>Rap<tag>out.action.genre = "Rap"</tag></item>
+            <item>Folk<tag>out.action.genre = "Folk"</tag></item>
+            <item>Post Grunge<tag>out.action.genre = "Post Grunge"</tag></item>
+            <item>Post Rock<tag>out.action.genre = "Post Rock"</tag></item>
+            <item>Nu Rave<tag>out.action.genre = "Nu Rave"</tag></item>
+            <item>Independent Rock<tag>out.action.genre = "Independent Rock"</tag></item>
+            <item>Chanson française<tag>out.action.genre = "Chanson française"</tag></item>
+            <item>Progressive Rock<tag>out.action.genre = "Progressive Rock"</tag></item>
+            <item>Industrial Rock<tag>out.action.genre = "Industrial Rock"</tag></item>
+            <item>Folk Rock<tag>out.action.genre = "Folk Rock"</tag></item>
+            <item>Indie pop<tag>out.action.genre = "Indie pop"</tag></item>
+            <item>Rap hardcore<tag>out.action.genre = "Rap hardcore"</tag></item>
+            <item>Progressive House<tag>out.action.genre = "Progressive House"</tag></item>
+            <item>Electro House<tag>out.action.genre = "Electro House"</tag></item>
+            <item>Dance<tag>out.action.genre = "Dance"</tag></item>
+            <item>Other<tag>out.action.genre = "Other"</tag></item>
+            <item>Blues<tag>out.action.genre = "Blues"</tag></item>
+            <item>Inconnu<tag>out.action.genre = "Inconnu"</tag></item>
+            <item>Electro<tag>out.action.genre = "Electro"</tag></item>
+            <item>mp3pulse.ru<tag>out.action.genre = "mp3pulse.ru"</tag></item>
+            <!-- ¤ Automatic Generation Genre -->
+		</one-of>
+	</rule>
+
+	<rule id="ruleXBMC_Artist" scope="public">
+		<example>Sebastien je veux écouter ACDC</example>
+		<tag>out.action=new Object();</tag>
+		<tag>out.action.xbmc="music" </tag>
+		<one-of>
+			<item>je veux écouter<tag>out.action.action="artist";</tag></item>
+			<item>met<tag>out.action.action="artist";</tag></item>
+			<item>met du<tag>out.action.action="artist";</tag></item>
+			<item>met un peu de<tag>out.action.action="artist";</tag></item>
+		</one-of>
+		<one-of>
+			<!-- Personalisation Artiste  -->
+			<!-- Automatic Generation Artist § -->
+            <item>30 Seconds To Mars<tag>out.action.artist = "30 Seconds To Mars"</tag></item>
+            <item>AC/DC<tag>out.action.artist = "AC/DC"</tag></item>
+            <item>Adele<tag>out.action.artist = "Adele"</tag></item>
+            <item>Adema<tag>out.action.artist = "Adema"</tag></item>
+            <item>Airbourne<tag>out.action.artist = "Airbourne"</tag></item>
+            <item>Alex Clare<tag>out.action.artist = "Alex Clare"</tag></item>
+            <item>Anberlin<tag>out.action.artist = "Anberlin"</tag></item>
+            <item>Audioslave<tag>out.action.artist = "Audioslave"</tag></item>
+            <item>AWOLNATION<tag>out.action.artist = "AWOLNATION"</tag></item>
+            <item>Billy Van<tag>out.action.artist = "Billy Van"</tag></item>
+            <item>Black Eyed Peas<tag>out.action.artist = "Black Eyed Peas"</tag></item>
+            <item>Blue Stahli<tag>out.action.artist = "Blue Stahli"</tag></item>
+            <item>Brad Sucks<tag>out.action.artist = "Brad Sucks"</tag></item>
+            <item>Breaking Benjamin<tag>out.action.artist = "Breaking Benjamin"</tag></item>
+            <item>Bruno Mars<tag>out.action.artist = "Bruno Mars"</tag></item>
+            <item>Bullet for My Valentine<tag>out.action.artist = "Bullet for My Valentine"</tag></item>
+            <item>Celldweller<tag>out.action.artist = "Celldweller"</tag></item>
+            <item>Chevelle<tag>out.action.artist = "Chevelle"</tag></item>
+            <item>Cold<tag>out.action.artist = "Cold"</tag></item>
+            <item>Coldplay<tag>out.action.artist = "Coldplay"</tag></item>
+            <item>Daft Punk<tag>out.action.artist = "Daft Punk"</tag></item>
+            <item>David Guetta<tag>out.action.artist = "David Guetta"</tag></item>
+            <item>Dead by April<tag>out.action.artist = "Dead by April"</tag></item>
+            <item>Deathstars<tag>out.action.artist = "Deathstars"</tag></item>
+            <item>Deftones<tag>out.action.artist = "Deftones"</tag></item>
+            <item>fai<tag>out.action.artist = "fai"</tag></item>
+            <item>Device<tag>out.action.artist = "Device"</tag></item>
+            <item>Digital Summer<tag>out.action.artist = "Digital Summer"</tag></item>
+            <item>Disco Mirage<tag>out.action.artist = "Disco Mirage"</tag></item>
+            <item>Disturbed<tag>out.action.artist = "Disturbed"</tag></item>
+            <item>Drive<tag>out.action.artist = "Drive"</tag></item>
+            <item>Drowning Pool<tag>out.action.artist = "Drowning Pool"</tag></item>
+            <item>E Nomine<tag>out.action.artist = "E Nomine"</tag></item>
+            <item>Edguy<tag>out.action.artist = "Edguy"</tag></item>
+            <item>Era<tag>out.action.artist = "Era"</tag></item>
+            <item>Evanescence<tag>out.action.artist = "Evanescence"</tag></item>
+            <item>Feeder<tag>out.action.artist = "Feeder"</tag></item>
+            <item>Fiction Plane<tag>out.action.artist = "Fiction Plane"</tag></item>
+            <item>Fightstar<tag>out.action.artist = "Fightstar"</tag></item>
+            <item>Fink<tag>out.action.artist = "Fink"</tag></item>
+            <item>Fireflight<tag>out.action.artist = "Fireflight"</tag></item>
+            <item>Flight Facilities<tag>out.action.artist = "Flight Facilities"</tag></item>
+            <item>Flyleaf<tag>out.action.artist = "Flyleaf"</tag></item>
+            <item>Foo Fighters<tag>out.action.artist = "Foo Fighters"</tag></item>
+            <item>Framing Hanley<tag>out.action.artist = "Framing Hanley"</tag></item>
+            <item>God Is an Astronaut<tag>out.action.artist = "God Is an Astronaut"</tag></item>
+            <item>Godhead<tag>out.action.artist = "Godhead"</tag></item>
+            <item>Godsmack<tag>out.action.artist = "Godsmack"</tag></item>
+            <item>Gotye<tag>out.action.artist = "Gotye"</tag></item>
+            <item>Hadouken<tag>out.action.artist = "Hadouken"</tag></item>
+            <item>Hadouken!<tag>out.action.artist = "Hadouken!"</tag></item>
+            <item>Hawthorne Heights<tag>out.action.artist = "Hawthorne Heights"</tag></item>
+            <item>Hollywood Undead<tag>out.action.artist = "Hollywood Undead"</tag></item>
+            <item>Ill Niño<tag>out.action.artist = "Ill Niño"</tag></item>
+            <item>Justice<tag>out.action.artist = "Justice"</tag></item>
+            <item>Karmin<tag>out.action.artist = "Karmin"</tag></item>
+            <item>Kill the Young<tag>out.action.artist = "Kill the Young"</tag></item>
+            <item>Killswitch Engage<tag>out.action.artist = "Killswitch Engage"</tag></item>
+            <item>Lacuna Coil<tag>out.action.artist = "Lacuna Coil"</tag></item>
+            <item>Lana Del Rey<tag>out.action.artist = "Lana Del Rey"</tag></item>
+            <item>Limp Bizkit<tag>out.action.artist = "Limp Bizkit"</tag></item>
+            <item>Linkin Park<tag>out.action.artist = "Linkin Park"</tag></item>
+            <item>Dead By Sunrise<tag>out.action.artist = "Dead By Sunrise"</tag></item>
+            <item>Lordi<tag>out.action.artist = "Lordi"</tag></item>
+            <item>Lostprophets<tag>out.action.artist = "Lostprophets"</tag></item>
+            <item>Marie-Mai<tag>out.action.artist = "Marie-Mai"</tag></item>
+            <item>Marilyn Manson<tag>out.action.artist = "Marilyn Manson"</tag></item>
+            <item>Middle Class Rut<tag>out.action.artist = "Middle Class Rut"</tag></item>
+            <item>Modestep<tag>out.action.artist = "Modestep"</tag></item>
+            <item>Modestep and Popeska<tag>out.action.artist = "Modestep &amp; Popeska"</tag></item>
+            <item>Modestep, D-Power, Jammin, Jammer and Frisco<tag>out.action.artist = "Modestep, D-Power, Jammin, Jammer &amp; Frisco"</tag></item>
+            <item>Modestep and Document One<tag>out.action.artist = "Modestep &amp; Document One"</tag></item>
+            <item>Modestep and Newham Generals<tag>out.action.artist = "Modestep &amp; Newham Generals"</tag></item>
+            <item>Modestep and Koven<tag>out.action.artist = "Modestep &amp; Koven"</tag></item>
+            <item>Mucky Foot<tag>out.action.artist = "Mucky Foot"</tag></item>
+            <item>Muse<tag>out.action.artist = "Muse"</tag></item>
+            <item>My Darkest Days<tag>out.action.artist = "My Darkest Days"</tag></item>
+            <item>Nero<tag>out.action.artist = "Nero"</tag></item>
+            <item>New Politics<tag>out.action.artist = "New Politics"</tag></item>
+            <item>Nickelback<tag>out.action.artist = "Nickelback"</tag></item>
+            <item>Imagine Dragons<tag>out.action.artist = "Imagine Dragons"</tag></item>
+            <item>Nirvana<tag>out.action.artist = "Nirvana"</tag></item>
+            <item>OneRepublic<tag>out.action.artist = "OneRepublic"</tag></item>
+            <item>P. O. D.<tag>out.action.artist = "P. O. D."</tag></item>
+            <item>Papa Roach<tag>out.action.artist = "Papa Roach"</tag></item>
+            <item>Paramore<tag>out.action.artist = "Paramore"</tag></item>
+            <item>Pendullum<tag>out.action.artist = "Pendullum"</tag></item>
+            <item>Pony Pony Run Run<tag>out.action.artist = "Pony Pony Run Run"</tag></item>
+            <item>Rage Against the Machine<tag>out.action.artist = "Rage Against the Machine"</tag></item>
+            <item>Rammstein<tag>out.action.artist = "Rammstein"</tag></item>
+            <item>Red<tag>out.action.artist = "Red"</tag></item>
+            <item>Red Hot Chili Peppers<tag>out.action.artist = "Red Hot Chili Peppers"</tag></item>
+            <item>Rise Against<tag>out.action.artist = "Rise Against"</tag></item>
+            <item>Rondo Veneziano<tag>out.action.artist = "Rondo Veneziano"</tag></item>
+            <item>Saliva<tag>out.action.artist = "Saliva"</tag></item>
+            <item>Seether<tag>out.action.artist = "Seether"</tag></item>
+            <item>Senses Fail<tag>out.action.artist = "Senses Fail"</tag></item>
+            <item>Shaka Ponk<tag>out.action.artist = "Shaka Ponk"</tag></item>
+            <item>Shinedown<tag>out.action.artist = "Shinedown"</tag></item>
+            <item>Sick Puppies<tag>out.action.artist = "Sick Puppies"</tag></item>
+            <item>Skillet<tag>out.action.artist = "Skillet"</tag></item>
+            <item>Skrillex<tag>out.action.artist = "Skrillex"</tag></item>
+            <item>Snow Patrol<tag>out.action.artist = "Snow Patrol"</tag></item>
+            <item>Soundtrack<tag>out.action.artist = "Soundtrack"</tag></item>
+            <item>Don Davis<tag>out.action.artist = "Don Davis"</tag></item>
+            <item>Juno Reactor Vs Don Davis<tag>out.action.artist = "Juno Reactor Vs Don Davis"</tag></item>
+            <item>Aiden Vs. The Legion Of Doom<tag>out.action.artist = "Aiden Vs. The Legion Of Doom"</tag></item>
+            <item>Oakenfold<tag>out.action.artist = "Oakenfold"</tag></item>
+            <item>Earshot<tag>out.action.artist = "Earshot"</tag></item>
+            <item>Charlie Clouser<tag>out.action.artist = "Charlie Clouser"</tag></item>
+            <item>Cavo<tag>out.action.artist = "Cavo"</tag></item>
+            <item>The All-American Rejects<tag>out.action.artist = "The All-American Rejects"</tag></item>
+            <item>Cheap Trick<tag>out.action.artist = "Cheap Trick"</tag></item>
+            <item>Stabbing Westward<tag>out.action.artist = "Stabbing Westward"</tag></item>
+            <item>Static-X<tag>out.action.artist = "Static-X"</tag></item>
+            <item>Stone Sour<tag>out.action.artist = "Stone Sour"</tag></item>
+            <item>Stone Temple Pilots<tag>out.action.artist = "Stone Temple Pilots"</tag></item>
+            <item>Sub Focus<tag>out.action.artist = "Sub Focus"</tag></item>
+            <item>Sum 41<tag>out.action.artist = "Sum 41"</tag></item>
+            <item>Superbus<tag>out.action.artist = "Superbus"</tag></item>
+            <item>System of a Down<tag>out.action.artist = "System of a Down"</tag></item>
+            <item>Texas In July<tag>out.action.artist = "Texas In July"</tag></item>
+            <item>The Corrs<tag>out.action.artist = "The Corrs"</tag></item>
+            <item>The Lumineers<tag>out.action.artist = "The Lumineers"</tag></item>
+            <item>The Music<tag>out.action.artist = "The Music"</tag></item>
+            <item>The Offspring<tag>out.action.artist = "The Offspring"</tag></item>
+            <item>The Prodigy<tag>out.action.artist = "The Prodigy"</tag></item>
+            <item>The Red Jumpsuit Apparatus<tag>out.action.artist = "The Red Jumpsuit Apparatus"</tag></item>
+            <item>The Temper Trap<tag>out.action.artist = "The Temper Trap"</tag></item>
+            <item>The xx<tag>out.action.artist = "The xx"</tag></item>
+            <item>Theory Of A Deadman<tag>out.action.artist = "Theory Of A Deadman"</tag></item>
+            <item>Theory Of A Dead Man<tag>out.action.artist = "Theory Of A Dead Man"</tag></item>
+            <item>Three Days Grace<tag>out.action.artist = "Three Days Grace"</tag></item>
+            <item>Macklemore and Ryan Lewis<tag>out.action.artist = "Macklemore &amp; Ryan Lewis"</tag></item>
+            <item>Tonight Alive<tag>out.action.artist = "Tonight Alive"</tag></item>
+            <item>The Crystal Method<tag>out.action.artist = "The Crystal Method"</tag></item>
+            <item>Dada Life<tag>out.action.artist = "Dada Life"</tag></item>
+            <item>Tonite Only<tag>out.action.artist = "Tonite Only"</tag></item>
+            <item>Danny Marquez and Chunks<tag>out.action.artist = "Danny Marquez &amp; Chunks"</tag></item>
+            <item>Nom De Strip, Sue Cho and Tjr<tag>out.action.artist = "Nom De Strip, Sue Cho &amp; Tjr"</tag></item>
+            <item>Tommy Trash<tag>out.action.artist = "Tommy Trash"</tag></item>
+            <item>Felguk<tag>out.action.artist = "Felguk"</tag></item>
+            <item>Audionite<tag>out.action.artist = "Audionite"</tag></item>
+            <item>Dyro<tag>out.action.artist = "Dyro"</tag></item>
+            <item>Sandro Silva and Quintino<tag>out.action.artist = "Sandro Silva &amp; Quintino"</tag></item>
+            <item>Dem Slackers<tag>out.action.artist = "Dem Slackers"</tag></item>
+            <item>Bassjackers<tag>out.action.artist = "Bassjackers"</tag></item>
+            <item>Afrojack and R3Hab<tag>out.action.artist = "Afrojack &amp; R3Hab"</tag></item>
+            <item>Marco V<tag>out.action.artist = "Marco V"</tag></item>
+            <item>Tiësto<tag>out.action.artist = "Tiësto"</tag></item>
+            <item>Wayne Static<tag>out.action.artist = "Wayne Static"</tag></item>
+            <item>David Draiman<tag>out.action.artist = "David Draiman"</tag></item>
+            <item>Chester Bennington<tag>out.action.artist = "Chester Bennington"</tag></item>
+            <item>Jay Gordon<tag>out.action.artist = "Jay Gordon"</tag></item>
+            <item>Dry Cell<tag>out.action.artist = "Dry Cell"</tag></item>
+            <item>Tricky<tag>out.action.artist = "Tricky"</tag></item>
+            <item>kidneythieves<tag>out.action.artist = "kidneythieves"</tag></item>
+            <item>Various Artists<tag>out.action.artist = "Various Artists"</tag></item>
+            <item>Slipknot<tag>out.action.artist = "Slipknot"</tag></item>
+            <item>DevilDriver<tag>out.action.artist = "DevilDriver"</tag></item>
+            <item>CKY<tag>out.action.artist = "CKY"</tag></item>
+            <item>Rob Zombie<tag>out.action.artist = "Rob Zombie"</tag></item>
+            <item>Five Pointe O<tag>out.action.artist = "Five Pointe O"</tag></item>
+            <item>Voicians<tag>out.action.artist = "Voicians"</tag></item>
+            <item>Waldeck<tag>out.action.artist = "Waldeck"</tag></item>
+            <item>Woodkid<tag>out.action.artist = "Woodkid"</tag></item>
+            <item>Avicii<tag>out.action.artist = "Avicii"</tag></item>
+            <item>16bit<tag>out.action.artist = "16bit"</tag></item>
+            <item>Calvin Harris<tag>out.action.artist = "Calvin Harris"</tag></item>
+            <item>Cutline<tag>out.action.artist = "Cutline"</tag></item>
+            <item>Dodge and Fuski<tag>out.action.artist = "Dodge &amp; Fuski"</tag></item>
+            <item>Does It Offend You, Yeah!<tag>out.action.artist = "Does It Offend You, Yeah!"</tag></item>
+            <item>Dubba Jonny<tag>out.action.artist = "Dubba Jonny"</tag></item>
+            <item>Foreign Beggars<tag>out.action.artist = "Foreign Beggars"</tag></item>
+            <item>Gemini<tag>out.action.artist = "Gemini"</tag></item>
+            <item>Metrik<tag>out.action.artist = "Metrik"</tag></item>
+            <item>Monstar<tag>out.action.artist = "Monstar"</tag></item>
+            <item>Porter Robinson<tag>out.action.artist = "Porter Robinson"</tag></item>
+            <item>RackNRuin<tag>out.action.artist = "RackNRuin"</tag></item>
+            <item>Roksonix<tag>out.action.artist = "Roksonix"</tag></item>
+            <item>Spor<tag>out.action.artist = "Spor"</tag></item>
+            <item>UKF Music<tag>out.action.artist = "UKF Music"</tag></item>
+            <item>Xilent<tag>out.action.artist = "Xilent"</tag></item>
+            <item>Yogi Feat. Ayah Marar<tag>out.action.artist = "Yogi Feat. Ayah Marar"</tag></item>
+            <item>Zomboy<tag>out.action.artist = "Zomboy"</tag></item>
+            <item>DJ Fresh vs. Diplo feat. Dominique Young Unique<tag>out.action.artist = "DJ Fresh vs. Diplo feat. Dominique Young Unique"</tag></item>
+            <item>Professor Green feat. Miles Kane<tag>out.action.artist = "Professor Green feat. Miles Kane"</tag></item>
+            <item>Cookie Monsta and Flux Pavilion<tag>out.action.artist = "Cookie Monsta &amp; Flux Pavilion"</tag></item>
+            <item>Avicii vs. Nicky Romero<tag>out.action.artist = "Avicii vs. Nicky Romero"</tag></item>
+            <item>Ellie Goulding<tag>out.action.artist = "Ellie Goulding"</tag></item>
+            <item>Sub Focus feat. Alex Clare<tag>out.action.artist = "Sub Focus feat. Alex Clare"</tag></item>
+            <item>Funtcase feat. Foreign Beggars vs. OGz<tag>out.action.artist = "Funtcase feat. Foreign Beggars vs. OGz"</tag></item>
+            <item>Brookes Brothers feat. Chrom3<tag>out.action.artist = "Brookes Brothers feat. Chrom3"</tag></item>
+            <item>Au5<tag>out.action.artist = "Au5"</tag></item>
+            <item>Koven<tag>out.action.artist = "Koven"</tag></item>
+            <item>Andrew Bayer<tag>out.action.artist = "Andrew Bayer"</tag></item>
+            <item>Noisestorm<tag>out.action.artist = "Noisestorm"</tag></item>
+            <item>AlunaGeorge<tag>out.action.artist = "AlunaGeorge"</tag></item>
+            <item>Azedia<tag>out.action.artist = "Azedia"</tag></item>
+            <item>Delilah<tag>out.action.artist = "Delilah"</tag></item>
+            <item>Calvertron<tag>out.action.artist = "Calvertron"</tag></item>
+            <item>Wretch 32 feat. Shakka<tag>out.action.artist = "Wretch 32 feat. Shakka"</tag></item>
+            <item>Genetix<tag>out.action.artist = "Genetix"</tag></item>
+            <item>Drumsound and Bassline Smith feat. Fleur<tag>out.action.artist = "Drumsound &amp; Bassline Smith feat. Fleur"</tag></item>
+            <item>Mike Delinquent Project Feat. KCAT and Donae'o<tag>out.action.artist = "Mike Delinquent Project Feat. KCAT and Donae'o"</tag></item>
+            <item>Whistle<tag>out.action.artist = "Whistle"</tag></item>
+            <item>Candyland feat. Zak Waters<tag>out.action.artist = "Candyland feat. Zak Waters"</tag></item>
+            <item>Juventa feat. Erica Curran<tag>out.action.artist = "Juventa feat. Erica Curran"</tag></item>
+            <item>SpectraSoul feat. Tamara Blessa<tag>out.action.artist = "SpectraSoul feat. Tamara Blessa"</tag></item>
+            <item>Icicle<tag>out.action.artist = "Icicle"</tag></item>
+            <item>Emalkay<tag>out.action.artist = "Emalkay"</tag></item>
+            <item>Zeds Dead<tag>out.action.artist = "Zeds Dead"</tag></item>
+            <item>xKore<tag>out.action.artist = "xKore"</tag></item>
+            <item>Feed Me and Gemini<tag>out.action.artist = "Feed Me &amp; Gemini"</tag></item>
+            <item>Tritonal<tag>out.action.artist = "Tritonal"</tag></item>
+            <item>Ayah Marar<tag>out.action.artist = "Ayah Marar"</tag></item>
+            <item>The Prototypes<tag>out.action.artist = "The Prototypes"</tag></item>
+            <item>Laxx<tag>out.action.artist = "Laxx"</tag></item>
+            <item>Snarebox<tag>out.action.artist = "Snarebox"</tag></item>
+            <item>Taiki and Nulight<tag>out.action.artist = "Taiki &amp; Nulight"</tag></item>
+            <item>Netsky<tag>out.action.artist = "Netsky"</tag></item>
+            <item>Borgore<tag>out.action.artist = "Borgore"</tag></item>
+            <item>Eptic<tag>out.action.artist = "Eptic"</tag></item>
+            <item>Excision<tag>out.action.artist = "Excision"</tag></item>
+            <item>KillSonik<tag>out.action.artist = "KillSonik"</tag></item>
+            <item>Skism<tag>out.action.artist = "Skism"</tag></item>
+            <item>Flux Pavilion<tag>out.action.artist = "Flux Pavilion"</tag></item>
+            <item>Krewella<tag>out.action.artist = "Krewella"</tag></item>
+            <item>Feed Me and Tasha Baxter<tag>out.action.artist = "Feed Me &amp; Tasha Baxter"</tag></item>
+            <item>Datsik<tag>out.action.artist = "Datsik"</tag></item>
+            <item>Torqux<tag>out.action.artist = "Torqux"</tag></item>
+            <item>Culprate<tag>out.action.artist = "Culprate"</tag></item>
+            <item>KATFYR<tag>out.action.artist = "KATFYR"</tag></item>
+            <item>501<tag>out.action.artist = "501"</tag></item>
+            <item>AWE<tag>out.action.artist = "AWE"</tag></item>
+            <item>Tristam<tag>out.action.artist = "Tristam"</tag></item>
+            <item>Rollz<tag>out.action.artist = "Rollz"</tag></item>
+            <item>Subscape<tag>out.action.artist = "Subscape"</tag></item>
+            <item>Juventa<tag>out.action.artist = "Juventa"</tag></item>
+            <item>Mojo<tag>out.action.artist = "Mojo"</tag></item>
+            <item>KOAN Sound and Asa<tag>out.action.artist = "KOAN Sound &amp; Asa"</tag></item>
+            <item>Eminem<tag>out.action.artist = "Eminem"</tag></item>
+            <item>Ed Solo, JFB<tag>out.action.artist = "Ed Solo, JFB"</tag></item>
+            <item>Plan B<tag>out.action.artist = "Plan B"</tag></item>
+            <item>Black Veil Brides<tag>out.action.artist = "Black Veil Brides"</tag></item>
+            <item>DiscoMirage<tag>out.action.artist = "DiscoMirage"</tag></item>
+            <item>Four Tet<tag>out.action.artist = "Four Tet"</tag></item>
+            <item>Dirt Off Your Shoulder<tag>out.action.artist = "Dirt Off Your Shoulder"</tag></item>
+            <item>Big Pimpin'<tag>out.action.artist = "Big Pimpin'"</tag></item>
+            <item>Izzo<tag>out.action.artist = "Izzo"</tag></item>
+            <item>Jeremy Soule<tag>out.action.artist = "Jeremy Soule"</tag></item>
+            <item>M<tag>out.action.artist = "M"</tag></item>
+            <item>Mankind is Obsolete<tag>out.action.artist = "Mankind is Obsolete"</tag></item>
+            <item>The Used<tag>out.action.artist = "The Used"</tag></item>
+            <item>Propellerheads<tag>out.action.artist = "Propellerheads"</tag></item>
+            <item>Shadows Fall<tag>out.action.artist = "Shadows Fall"</tag></item>
+            <item>Marylin Manson<tag>out.action.artist = "Marylin Manson"</tag></item>
+            <item>Ministry<tag>out.action.artist = "Ministry"</tag></item>
+            <item>Flyleaf Vs. The Legion Of Doom<tag>out.action.artist = "Flyleaf Vs. The Legion Of Doom"</tag></item>
+            <item>Juno Reactor Featuring Gocoo<tag>out.action.artist = "Juno Reactor Featuring Gocoo"</tag></item>
+            <item>The Cure<tag>out.action.artist = "The Cure"</tag></item>
+            <item>Rob Dougan<tag>out.action.artist = "Rob Dougan"</tag></item>
+            <item>Rob D<tag>out.action.artist = "Rob D"</tag></item>
+            <item>Pale<tag>out.action.artist = "Pale"</tag></item>
+            <item>Emigrate<tag>out.action.artist = "Emigrate"</tag></item>
+            <item>Coal Chamber<tag>out.action.artist = "Coal Chamber"</tag></item>
+            <item>Bayside<tag>out.action.artist = "Bayside"</tag></item>
+            <item>Juno Reactor - Don Davis<tag>out.action.artist = "Juno Reactor - Don Davis"</tag></item>
+            <item>Meat Beat Manifesto<tag>out.action.artist = "Meat Beat Manifesto"</tag></item>
+            <item>A Perfect Circle<tag>out.action.artist = "A Perfect Circle"</tag></item>
+            <item>Lunatic Calm<tag>out.action.artist = "Lunatic Calm"</tag></item>
+            <item>Team Sleep<tag>out.action.artist = "Team Sleep"</tag></item>
+            <item>Fear Factory<tag>out.action.artist = "Fear Factory"</tag></item>
+            <item>Prodigy<tag>out.action.artist = "Prodigy"</tag></item>
+            <item>P.O.D.<tag>out.action.artist = "P.O.D."</tag></item>
+            <item>Unloco<tag>out.action.artist = "Unloco"</tag></item>
+            <item>Throwdown<tag>out.action.artist = "Throwdown"</tag></item>
+            <item>Cradle of Filth<tag>out.action.artist = "Cradle of Filth"</tag></item>
+            <item>Depeche Mode<tag>out.action.artist = "Depeche Mode"</tag></item>
+            <item>Hive<tag>out.action.artist = "Hive"</tag></item>
+            <item>Collide<tag>out.action.artist = "Collide"</tag></item>
+            <item>Monster Magnet<tag>out.action.artist = "Monster Magnet"</tag></item>
+            <item>Chimaira<tag>out.action.artist = "Chimaira"</tag></item>
+            <item>Fluke<tag>out.action.artist = "Fluke"</tag></item>
+            <item>Mudvayne<tag>out.action.artist = "Mudvayne"</tag></item>
+            <item>Him and Her<tag>out.action.artist = "Him &amp; Her"</tag></item>
+            <item>Dave Matthews Band<tag>out.action.artist = "Dave Matthews Band"</tag></item>
+            <item>The Bled<tag>out.action.artist = "The Bled"</tag></item>
+            <item>Demon Hunter<tag>out.action.artist = "Demon Hunter"</tag></item>
+            <item>Method Man<tag>out.action.artist = "Method Man"</tag></item>
+            <item>City Sleeps<tag>out.action.artist = "City Sleeps"</tag></item>
+            <item>Thrice<tag>out.action.artist = "Thrice"</tag></item>
+            <item>36 Crazyfists<tag>out.action.artist = "36 Crazyfists"</tag></item>
+            <item>Searchlight<tag>out.action.artist = "Searchlight"</tag></item>
+            <item>Emanuel<tag>out.action.artist = "Emanuel"</tag></item>
+            <item>It Dies Today<tag>out.action.artist = "It Dies Today"</tag></item>
+            <item>Massive Attack<tag>out.action.artist = "Massive Attack"</tag></item>
+            <item>Poison The Well<tag>out.action.artist = "Poison The Well"</tag></item>
+            <item>Mika<tag>out.action.artist = "Mika"</tag></item>
+            <item>One Less Reason<tag>out.action.artist = "One Less Reason"</tag></item>
+            <item>Pink Floyd<tag>out.action.artist = "Pink Floyd"</tag></item>
+            <item>Process<tag>out.action.artist = "Process"</tag></item>
+            <item>Pull Tiger Tail<tag>out.action.artist = "Pull Tiger Tail"</tag></item>
+            <item>Soulidium<tag>out.action.artist = "Soulidium"</tag></item>
+            <item>The Rasmus<tag>out.action.artist = "The Rasmus"</tag></item>
+            <item>Green Day<tag>out.action.artist = "Green Day"</tag></item>
+            <item>Taking Back Sunday<tag>out.action.artist = "Taking Back Sunday"</tag></item>
+            <item>The Fray<tag>out.action.artist = "The Fray"</tag></item>
+            <item>Hoobastank<tag>out.action.artist = "Hoobastank"</tag></item>
+            <item>Staind<tag>out.action.artist = "Staind"</tag></item>
+            <item>Avenged Sevenfold<tag>out.action.artist = "Avenged Sevenfold"</tag></item>
+            <item>Limp Bizkit Feat. Korn And Vanilla Ice<tag>out.action.artist = "Limp Bizkit Feat. Korn And Vanilla Ice"</tag></item>
+            <item>You Me At Six<tag>out.action.artist = "You Me At Six"</tag></item>
+            <item>VA<tag>out.action.artist = "VA"</tag></item>
+            <item>Jay-Z<tag>out.action.artist = "Jay-Z"</tag></item>
+            <item>Matrix Revolution<tag>out.action.artist = "Matrix Revolution"</tag></item>
+            <item>Pendulum<tag>out.action.artist = "Pendulum"</tag></item>
+            <item>Transformers: Revenge Of The Fallen Soundtrack<tag>out.action.artist = "Transformers: Revenge Of The Fallen Soundtrack"</tag></item>
+            <item>Vanilla Ice<tag>out.action.artist = "Vanilla Ice"</tag></item>
+            <!-- § Automatic Generation Artist -->
+		</one-of>
+	</rule>
+
+	<rule id="ruleXBMC_Serie" scope="public">
+		<example>Sebastien met le prochain épisode des simpsons</example>
+		<tag>out.action=new Object();</tag>
+		<tag>out.action.xbmc="video" </tag>
+		<one-of>
+			<item>met le prochain épisode de<tag>out.action.action="tvshowtitle";</tag></item>
+			<item>met le dernière épisode de<tag>out.action.action="tvshowtitle";</tag></item>
+			<item>met l'épisode suivant de<tag>out.action.action="tvshowtitle";</tag></item>
+			<item>met l'épisode qui suit de<tag>out.action.action="tvshowtitle";</tag></item>
+			<item>je veux voir le prochain épisode de<tag>out.action.action="tvshowtitle";</tag></item>
+			<item>je veux voir le dernier épisode de<tag>out.action.action="tvshowtitle";</tag></item>
+		</one-of>
+		<one-of>
+			<!-- Personalisation Série  -->
+			<!-- Automatic Generation Serie £ -->
+            <item>Almost Human<tag>out.action.showid = "2"</tag></item>
+            <item>Alphas<tag>out.action.showid = "3"</tag></item>
+            <item>Arrested Development<tag>out.action.showid = "54"</tag></item>
+            <item>Arrow<tag>out.action.showid = "40"</tag></item>
+            <item>Battlestar Galactica (2003)<tag>out.action.showid = "47"</tag></item>
+            <item>Boardwalk Empire<tag>out.action.showid = "32"</tag></item>
+            <item>Breaking Bad<tag>out.action.showid = "16"</tag></item>
+            <item>Californication<tag>out.action.showid = "12"</tag></item>
+            <item>Caprica<tag>out.action.showid = "34"</tag></item>
+            <item>Continuum<tag>out.action.showid = "20"</tag></item>
+            <item>Da Vinci's Demons<tag>out.action.showid = "42"</tag></item>
+            <item>Defiance<tag>out.action.showid = "38"</tag></item>
+            <item>Dexter<tag>out.action.showid = "5"</tag></item>
+            <item>Dracula<tag>out.action.showid = "29"</tag></item>
+            <item>Elementary<tag>out.action.showid = "25"</tag></item>
+            <item>Falling Skies<tag>out.action.showid = "51"</tag></item>
+            <item>Firefly<tag>out.action.showid = "35"</tag></item>
+            <item>Fringe<tag>out.action.showid = "37"</tag></item>
+            <item>Game of Thrones<tag>out.action.showid = "9"</tag></item>
+            <item>Grimm<tag>out.action.showid = "6"</tag></item>
+            <item>Hell on Wheels<tag>out.action.showid = "28"</tag></item>
+            <item>Heroes<tag>out.action.showid = "8"</tag></item>
+            <item>Homeland<tag>out.action.showid = "14"</tag></item>
+            <item>House Of Cards (2013)<tag>out.action.showid = "30"</tag></item>
+            <item>How I Met Your Mother<tag>out.action.showid = "24"</tag></item>
+            <item>Kaamelott<tag>out.action.showid = "21"</tag></item>
+            <item>Lost<tag>out.action.showid = "45"</tag></item>
+            <item>Luther<tag>out.action.showid = "36"</tag></item>
+            <item>Marvel's Agents of S.H.I.E.L.D.<tag>out.action.showid = "1"</tag></item>
+            <item>Ray Donovan<tag>out.action.showid = "13"</tag></item>
+            <item>Revolution<tag>out.action.showid = "11"</tag></item>
+            <item>Shameless (US)<tag>out.action.showid = "33"</tag></item>
+            <item>Sherlock<tag>out.action.showid = "23"</tag></item>
+            <item>Sleepy Hollow<tag>out.action.showid = "43"</tag></item>
+            <item>Spartacus<tag>out.action.showid = "18"</tag></item>
+            <item>Stargate SG-1<tag>out.action.showid = "41"</tag></item>
+            <item>Stargate Universe<tag>out.action.showid = "50"</tag></item>
+            <item>Strike Back<tag>out.action.showid = "27"</tag></item>
+            <item>Supernatural<tag>out.action.showid = "26"</tag></item>
+            <item>The Americans (2013)<tag>out.action.showid = "44"</tag></item>
+            <item>The Avengers: Earth's Mightiest Heroes<tag>out.action.showid = "49"</tag></item>
+            <item>The Big Bang Theory<tag>out.action.showid = "53"</tag></item>
+            <item>The Borgias<tag>out.action.showid = "7"</tag></item>
+            <item>The Musketeers<tag>out.action.showid = "55"</tag></item>
+            <item>The Originals<tag>out.action.showid = "4"</tag></item>
+            <item>The Simpsons<tag>out.action.showid = "17"</tag></item>
+            <item>The Sopranos<tag>out.action.showid = "31"</tag></item>
+            <item>The Tomorrow People (2013)<tag>out.action.showid = "46"</tag></item>
+            <item>The Vampire Diaries<tag>out.action.showid = "39"</tag></item>
+            <item>The Walking Dead<tag>out.action.showid = "19"</tag></item>
+            <item>The Wire<tag>out.action.showid = "15"</tag></item>
+            <item>True Blood<tag>out.action.showid = "52"</tag></item>
+            <item>Two and a Half Men<tag>out.action.showid = "10"</tag></item>
+            <item>Under the Dome<tag>out.action.showid = "22"</tag></item>
+            <item>Vikings<tag>out.action.showid = "48"</tag></item>
+            <!-- £ Automatic Generation Serie -->
+		</one-of>
+	</rule>
+	
+</grammar>
+ 
